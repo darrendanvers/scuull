@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  db:
+    build: ./db
+    image: 'dev.codestijl/scuull-db:0.1.0'
+    restart: always
+    environment:
+      - POSTGRES_USER=spring-md
+      - POSTGRES_PASSWORD=spring-md-password
+      - POSTGRES_DB=smd
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - my-db:/var/lib/postgresql/data/
+# Data volumes.
+volumes:
+  my-db:
