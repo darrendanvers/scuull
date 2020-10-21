@@ -1,5 +1,8 @@
 version: '3.3'
 services:
+  #
+  # The database server.
+  #
   db:
     build: ./db
     image: 'dev.codestijl/scuull-db:0.1.0'
@@ -14,6 +17,33 @@ services:
       - '5432'
     volumes:
       - my-db:/var/lib/postgresql/data/
+  #
+  # The API server.
+  #
+  api:
+    build: ./scuull-api
+    image: 'dev.codestijl/scuull-api:1.0.0'
+    restart: always
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/smd
+      - DB_USER=spring-md
+      - DB_PASSWORD=spring-md-password
+      - ACTIVE_PROFILE=docker
+    ports:
+      - '8080:8080'
+    expose:
+      - '8080'
+  #
+  # The server with the user interface.
+  #
+  ui:
+    build: ./scuull-ui
+    image: 'dev.codestijl/scuul-ui:0.1.0'
+    restart: always
+    ports:
+      - '3000:3000'
+    expose:
+      - '3000'
 # Data volumes.
 volumes:
   my-db:

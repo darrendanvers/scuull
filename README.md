@@ -14,11 +14,18 @@ In the topmost directory, type in:
     docker-compose build
     docker-compse up
 
+Open your browser to [http://localhost:3000] (http://localhost:3000).
+
 ## Complete
 
 - A Postgress Docker image with the metadata tables and some sample data.
+- An API Docker image that serves up the jobs that have run, instances and executions of each of the jobs,
+and very basic data from each step of each execution.
+- A basic UI to display the information.
 
 ## In Development
+
+- More detailed information about the steps of each execution..
 
 
 

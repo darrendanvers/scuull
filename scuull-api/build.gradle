@@ -1,0 +1,72 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+
+	// Static analysis.
+	id 'checkstyle'
+	id "com.github.spotbugs" version "4.2.0"
+	id 'pmd'
+}
+
+group = 'dev.codestijl'
+version = '1.0.0'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	// Add security when further along.
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.postgresql:postgresql:42.1.4'
+
+	compileOnly 'org.projectlombok:lombok:1.18.12'
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.batch:spring-batch-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'com.h2database:h2'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+// Configure PMD.
+pmd {
+	toolVersion = "6.27.0"
+	ruleSetFiles = files("config/pmd/pmd.xml")
+	ruleSets = []
+}
+
+// Configure Spotbugs.
+spotbugs {
+	ignoreFailures = false
+}
+
+spotbugsMain {
+	reports {
+		xml.enabled = false
+		html.configure {
+			enabled = true
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
+}
+
+spotbugsTest {
+	reports {
+		xml.enabled = false
+		html.configure {
+			enabled = true
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
+}

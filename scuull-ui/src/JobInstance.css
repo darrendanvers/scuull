@@ -1,0 +1,62 @@
+.job-instance-list {
+    display: flex;
+    flex-flow: row wrap;
+    width: 75%;
+}
+
+.job-instance {
+    display: flex;
+    flex-flow: column nowrap;
+    border-radius: 5px;
+    margin: 10px 30px;
+    border: 1px solid darkgray;
+    padding: 5px;
+}
+
+.job-instance h3 {
+    text-align: center;
+}
+
+.job-executions {
+    display: table;
+    font-size: 10pt;
+    margin: 5px;
+}
+
+.job-execution-header {
+    display: table-row;
+}
+
+.job_execution-header-cell {
+    display: table-cell;
+    font-weight: bold;
+    color: darkgray;
+    padding: 5px;
+    border-bottom: 2px solid darkgray;
+}
+
+.job-execution {
+    display: table-row;
+}
+
+.execution-cell {
+    padding: 5px;
+}
+
+.execution-id {
+    cursor: pointer;
+    display: table-cell;
+    text-align: right;
+    font-weight: bold;
+}
+
+.execution-status {
+    font-size: smaller;
+    display: table-cell;
+}
+
+.execution-time {
+    font-size: smaller;
+    font-style: italic;
+    display: table-cell;
+}
