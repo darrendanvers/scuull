@@ -1,0 +1,42 @@
+.execution-detail {
+    margin: 10px;
+}
+
+.job-parameters {
+    display: flex;
+    flex-flow: row wrap;
+    width: fit-content;
+}
+
+.job-parameter {
+    margin: 5px 20px;
+}
+
+.job-parameter-header {
+    font-weight: bold;
+    color: dimgrey;
+    font-style: italic;
+}
+
+.job-parameter-header::after {
+    content: ":";
+}
+
+.job-parameter-value {
+}
+
+.step-details {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.job-execution-info {
+    font-weight: bold;
+    color: dimgrey;
+}
+
+.job-execution-info span {
+    margin-left: 5px;
+    font-weight: initial;
+    color: initial;
+}

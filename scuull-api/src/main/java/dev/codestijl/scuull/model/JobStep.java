@@ -40,7 +40,7 @@ public class JobStep {
     public static JobStep from(final StepExecution stepExecution) {
 
         return new JobStep().setStepName(stepExecution.getStepName())
-                .setStatus(stepExecution.getExitStatus().toString())
+                .setStatus(stepExecution.getExitStatus().getExitCode())
                 .setReadCount(stepExecution.getReadCount())
                 .setWriteCount(stepExecution.getWriteCount())
                 .setCommitCount(stepExecution.getCommitCount())

@@ -1,0 +1,41 @@
+
+.step-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-status {
+    margin-top: -10px;
+    margin-bottom: 5px;
+}
+
+.step-header {
+}
+.step-header h4::before {
+    color: dimgrey;
+    content: "[";
+}
+.step-header h4::after {
+    color: dimgrey;
+    content: "]";
+}
+
+.step-stats {
+    display: table;
+}
+
+.step-stat {
+    display: table-row;
+}
+
+.step-stat-header {
+    display: table-cell;
+    color: dimgrey;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.step-stat-detail {
+    display: table-cell;
+    text-align: right;
+}

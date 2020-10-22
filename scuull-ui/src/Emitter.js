@@ -16,10 +16,7 @@ const Emitter = {
     // Use this to stop listening for an event. Each on should have a corresponding off.
     off: (event, fn) => eventEmitter.off(event, fn),
     // Use this to issue an event.
-    emit: (event, payload) => eventEmitter.emit(event, payload),
-
-    // The list of events in the application.
-    JOB_EXECUTION_SELECT: "JOB-EXECUTION-SELECT"
+    emit: (event, payload) => eventEmitter.emit(event, payload)
 }
 
 Object.freeze(Emitter);

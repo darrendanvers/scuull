@@ -22,10 +22,11 @@ Open your browser to [http://localhost:3000] (http://localhost:3000).
 - An API Docker image that serves up the jobs that have run, instances and executions of each of the jobs,
 and very basic data from each step of each execution.
 - A basic UI to display the information.
+- More detailed information about the steps of each execution.
 
 ## In Development
 
-- More detailed information about the steps of each execution..
+- Error handling.
 
 
 

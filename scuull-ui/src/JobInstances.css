@@ -1,5 +1,10 @@
 .data-buckets {
-    display: flex;
-    flex-flow: row nowrap;
+    display: grid;
+    grid-template-columns: 75% 25%;
+    align-items: flex-start;
+}
 
+.job-instance-list {
+    display: flex;
+    flex-flow: row wrap;
 }

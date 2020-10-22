@@ -1,8 +1,9 @@
 import React from 'react';
 import { Router, Link } from '@reach/router';
 
-import JobInstances from "./JobInstances";
 import Jobs from "./Jobs";
+import JobInstances from "./JobInstances";
+import ExecutionDetail from "./ExecutionDetail";
 
 import './App.css';
 
@@ -21,7 +22,8 @@ function App() {
             <div className="App-body">
                 <Router>
                     <Jobs path="/" />
-                    <JobInstances path={"/:jobName"}/>
+                    <JobInstances path={"/:jobName"} />
+                    <ExecutionDetail path={"/executions/:executionId"} />
                 </Router>
             </div>
         </div>

@@ -2,6 +2,8 @@ package dev.codestijl.scuull.model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,11 +20,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class JobExecution {
 
-    private long id;
+    private long executionId;
+    private String jobName;
+    private long instanceId;
     private long startTime;
     private String status;
 
     private List<JobStep> steps = new LinkedList<>();
+    private Map<String, Object> parameters = new ConcurrentHashMap<>();
 
     /**
      * Constructs a new JobExecution. This overloading does not populate step level data.
@@ -45,9 +50,14 @@ public class JobExecution {
      */
     public static JobExecution from(final org.springframework.batch.core.JobExecution jobExecution, final boolean includeSteps) {
 
-        final JobExecution toReturn = new JobExecution().setId(jobExecution.getId())
+        final JobExecution toReturn = new JobExecution().setExecutionId(jobExecution.getId())
+                .setJobName(jobExecution.getJobInstance().getJobName())
+                .setInstanceId(jobExecution.getJobId())
                 .setStartTime(jobExecution.getStartTime().getTime())
                 .setStatus(jobExecution.getStatus().toString());
+
+        // Copy all the job parameters.
+        jobExecution.getJobParameters().getParameters().forEach((key, value) -> toReturn.getParameters().put(key, value.getValue()));
 
         if (includeSteps) {
             jobExecution.getStepExecutions()

@@ -4,6 +4,10 @@
   border-bottom: 1px solid darkgray;
 }
 
+.App-header a {
+  text-decoration: none;
+}
+
 .App-body {
 
 }

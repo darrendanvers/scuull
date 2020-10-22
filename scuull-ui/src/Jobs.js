@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from '@reach/router';
 
 import JobService from "./services/JobService";
 import JobInstance from "./JobInstance";
@@ -30,9 +29,8 @@ const Jobs = () => {
     return (
         <div className="job-name-list">
             {jobNames.map((jobInstance) =>
-                <Link key={jobInstance.instanceId} to={`/${jobInstance.jobName}`}>
-                    <JobInstance jobInstance={jobInstance} />
-                </Link>)}
+                <JobInstance key={jobInstance.instanceId} jobInstance={jobInstance} />
+            )}
         </div>
     );
 }
