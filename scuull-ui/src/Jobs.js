@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import JobService from "./services/JobService";
 import JobInstance from "./JobInstance";
+import Error from './Error';
 
 import './Jobs.css'
 
@@ -15,21 +16,29 @@ const Jobs = () => {
 
     // Holds the list of job names.
     const [jobNames, setJobNames] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     /**
      * Fetches the list of all job names.
      */
     useEffect(() => {
 
-        JobService.jobNames().then((jobNames) => {
+        JobService.jobNames((jobNames) => {
             setJobNames(jobNames);
-        }, console.error);
-    },[])
+        }, (err) => {
+            setErrorMessage(err);
+        });
+    },[errorMessage])
 
     return (
         <div className="job-name-list">
-            {jobNames.map((jobInstance) =>
-                <JobInstance key={jobInstance.instanceId} jobInstance={jobInstance} />
+            {errorMessage ? (
+                <Error displayMessage="There was an error trying to retrieve a list of job names"
+                    errorMessage={errorMessage} />
+            ) : (
+                jobNames.map((jobInstance) =>
+                    <JobInstance key={jobInstance.instanceId} jobInstance={jobInstance} />
+                )
             )}
         </div>
     );

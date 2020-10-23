@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Link, useParams} from "@reach/router"
 
 import StepDetail from "./StepDetail";
+import Error from "./Error";
 
 import './ExecutionDetail.css'
 import JobService from "./services/JobService";
@@ -16,20 +17,28 @@ const ExecutionDetail = () => {
 
     const routeParams = useParams();
     const [executionDetail, setExecutionDetail] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     /**
      * Fetches the information about a specific execution instance.
      */
     useEffect(() => {
-        JobService.executionDetail(routeParams.executionId).then((executionDetail) => {
-            setExecutionDetail(executionDetail);
-        }, console.error)
-    }, [routeParams.executionId, setExecutionDetail]);
+        JobService.executionDetail(routeParams.executionId,
+            (executionDetail) => {
+                setExecutionDetail(executionDetail);
+            }, (errorMessage) => {
+                setErrorMessage(errorMessage);
+            }
+        )
+    }, [routeParams.executionId, setExecutionDetail, setErrorMessage]);
 
     return (
         <div className="execution-detail">
-            {executionDetail ? (
-                <div>
+            {errorMessage ?
+                (<Error displayMessage="There was an error trying to retrieve job execution detail"
+                        errorMessage={errorMessage} />) : (<div />)}
+            {executionDetail ?
+                (<div>
                     <div className="execution-header">
                         <h2>
                             <Link to={`/${executionDetail.jobName}`}>{executionDetail.jobName}</Link>
@@ -54,8 +63,8 @@ const ExecutionDetail = () => {
                     <div className="step-details">
                         {executionDetail.steps.map((step) => <StepDetail key={step.stepName} stepDetail={step} /> )}
                     </div>
-                </div>
-            ) : (<div />)}
+                </div>) : (<div />)
+            }
         </div>
     );
 }

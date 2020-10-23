@@ -23,10 +23,11 @@ Open your browser to [http://localhost:3000](http://localhost:3000).
 and very basic data from each step of each execution.
 - A basic UI to display the information.
 - More detailed information about the steps of each execution.
+- Error handling.
 
 ## In Development
 
-- Error handling.
+- Security.
 
 
 

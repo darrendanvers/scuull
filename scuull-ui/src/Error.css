@@ -1,0 +1,27 @@
+.error-display {
+    background-color: #982d2d;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.error-display h2 {
+    text-align: center;
+}
+
+.error-display a {
+    color: white;
+}
+
+.display-message {
+    font-weight: bold;
+}
+
+.display-message::after {
+    content: ":";
+}
+
+.error-message {
+    padding: 0px 40px;
+    font-style: italic;
+}
