@@ -18,6 +18,15 @@ services:
     volumes:
       - my-db:/var/lib/postgresql/data/
   #
+  # Routes requests to the correct service.
+  #
+  router:
+    build: ./scuull-router
+    image: 'dev.codestijl/scuull-router:1.0.0'
+    restart: always
+    ports:
+      - '5555:5555'
+  #
   # The API server.
   #
   api:
@@ -29,10 +38,6 @@ services:
       - DB_USER=spring-md
       - DB_PASSWORD=spring-md-password
       - ACTIVE_PROFILE=docker
-    ports:
-      - '8080:8080'
-    expose:
-      - '8080'
   #
   # The server with the user interface.
   #
@@ -40,10 +45,6 @@ services:
     build: ./scuull-ui
     image: 'dev.codestijl/scuul-ui:0.1.0'
     restart: always
-    ports:
-      - '3000:3000'
-    expose:
-      - '3000'
 # Data volumes.
 volumes:
   my-db:
