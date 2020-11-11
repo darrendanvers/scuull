@@ -1,6 +1,8 @@
-# Service Router for the Scuull Application
+# Service Router and Authentication manager for the Scuull Application
 
-This has very little to it other than configuration. It uses Spring Boot and Zuul to do all the heavy
-lifting.
+It uses Spring Boot and Zuul to do all the heavy lifting for the routing.
 
-All configuration can be found in [application.properties](src/main/resources/application.properties).
+All configuration can be found in [application.yaml](src/main/resources/application.yaml).
+
+I based the JWT security features on XOOR's blog post 
+on [Medium](https://medium.com/@xoor/jwt-authentication-service-44658409e12c).

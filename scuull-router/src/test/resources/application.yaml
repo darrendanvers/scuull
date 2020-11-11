@@ -1,0 +1,4 @@
+auth:
+  jwt:
+    secret: 'secret'
+    validity: 3600000

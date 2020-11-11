@@ -12,10 +12,16 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  */
 @SpringBootApplication
 @EnableZuulProxy
+// Much of the structure of this class is driven by Spring, so ignoring this warning.
+@SuppressWarnings("PMD.UseUtilityClass")
 public class ScuullRouterApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ScuullRouterApplication.class, args);
-	}
-
+    /**
+     * Runs the application.
+     *
+     * @param args Command line arguments.
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(ScuullRouterApplication.class, args);
+    }
 }

@@ -1,68 +1,96 @@
 package dev.codestijl.scuullrouter.security;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST endpoint to authenticate users and return a JWT token.
+ *
+ * @author darren
+ * @since 1.0.0
+ */
 @RestController()
 @RequestMapping("/auth/user")
 public class UserEndpoint {
 
-    private static final class ExposedUser {
+    private final UserService userService;
 
-        private final String username;
-        private final String fullName;
-        private final List<String> authorities = new LinkedList<>();
+    /**
+     * Class to marshall a user login request.
+     *
+     * @author darren
+     * @since 1.0.0
+     */
+    private static final class UserLoginRequest {
 
-        private ExposedUser(String username, String fullName, Stream<String> authorities) {
+        private String userName;
+        private String password;
 
-            Assert.notNull(username, "Username cannot be null");
-            Assert.notNull(fullName, "Full name cannot be null.");
-
-            this.username = username;
-            this.fullName = fullName;
-            if (Objects.nonNull(this.authorities)) {
-                authorities.forEach(this.authorities::add);
-            }
+        /**
+         * Returns the userName.
+         *
+         * @return The userName.
+         */
+        public String getUserName() {
+            return userName;
         }
 
-        private static ExposedUser from(ScuullUser scuullUser) {
-            Assert.notNull(scuullUser, "User cannot be null.");
-
-            return new ExposedUser(scuullUser.getUsername(), scuullUser.getFullName(),
-                    scuullUser.getAuthorities().stream().map(GrantedAuthority::getAuthority));
+        /**
+         * Sets the userName.
+         *
+         * @param userName The userName.
+         * @return This object for further configuration.
+         */
+        public UserLoginRequest setUserName(final String userName) {
+            this.userName = userName;
+            return this;
         }
 
-        public String getUsername() {
-            return username;
+        /**
+         * Returns the password.
+         *
+         * @return The password.
+         */
+        public String getPassword() {
+            return password;
         }
 
-        public String getFullName() {
-            return fullName;
+        /**
+         * Sets the password.
+         *
+         * @param password The password.
+         * @return This object for further configuration.
+         */
+        public UserLoginRequest setPassword(final String password) {
+            this.password = password;
+            return this;
         }
 
-        public List<String> getAuthorities() {
-            return authorities;
+        @Override
+        public String toString() {
+            return this.userName;
         }
     }
-    @GetMapping
-    public ExposedUser get(Authentication authentication) {
 
-        if (Objects.isNull(authentication)) {
-            throw new IllegalStateException("User is not logged in.");
-        }
+    /**
+     * Constructs a new UserEndpoint.
+     *
+     * @param userService The UserService to authenticate users and generate JWT tokens with.
+     */
+    public UserEndpoint(final UserService userService) {
 
-        if (! (authentication.getPrincipal() instanceof ScuullUser)) {
-            throw new IllegalStateException("Principal does not contain a ScuulUser.");
-        }
+        this.userService = userService;
+    }
 
-        return ExposedUser.from((ScuullUser) authentication.getPrincipal());
+    /**
+     * Endpoint to hit to authenticate a user.
+     *
+     * @param loginRequest The UserLoginRequest with the user's ID and password.
+     * @return A JWT token for the user.
+     * @throws org.springframework.security.core.AuthenticationException If authentication fails.
+     */
+    @PostMapping
+    public String login(@RequestBody final UserLoginRequest loginRequest) {
+
+        return this.userService.signIn(loginRequest.getUserName(), loginRequest.getPassword());
     }
 }
