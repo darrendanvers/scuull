@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import React, { useState } from "react";
 import { navigate } from "@reach/router"
 
 import AuthService from "./services/AuthService";
+
+import './Login.css';
 
 const required = (value) => {
     if (!value) {
@@ -17,8 +16,6 @@ const required = (value) => {
 };
 
 const Login = ({returnToPath}) => {
-    const form = useRef();
-    const checkBtn = useRef();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -41,14 +38,13 @@ const Login = ({returnToPath}) => {
         setMessage("");
         setLoading(true);
 
-        form.current.validateAll();
 
-        if (checkBtn.current.context._errors.length === 0) {
             AuthService.login(username, password).then(
                 () => {
                     navigate(returnToPath);
                 },
                 (error) => {
+                    debugger;
                     const resMessage =
                         (error.response &&
                             error.response.data &&
@@ -60,65 +56,51 @@ const Login = ({returnToPath}) => {
                     setMessage(resMessage);
                 }
             );
-        } else {
-            setLoading(false);
-        }
+
     };
 
     return (
-        <div className="col-md-12">
-            <div className="card card-container">
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
+            <div className={"login-grid"}>
+                <form onSubmit={handleLogin} className="login-form">
 
-                <Form onSubmit={handleLogin} ref={form}>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <Input
-                            type="text"
-                            className="form-control"
-                            name="username"
-                            value={username}
-                            onChange={onChangeUsername}
-                            validations={[required]}
+                    {/*<div className="form-group">*/}
+                    <label htmlFor={"username"}>Username</label>
+                        <input type={"text"}
+                               name={"username"}
+                               value={username}
+                               onChange={onChangeUsername}
+                               validations={[required]}
                         />
-                    </div>
 
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <Input
-                            type="password"
-                            className="form-control"
-                            name="password"
-                            value={password}
-                            onChange={onChangePassword}
-                            validations={[required]}
-                        />
-                    </div>
+                    {/*</div>*/}
 
-                    <div className="form-group">
-                        <button className="btn btn-primary btn-block" disabled={loading}>
+                    {/*<div className="form-group">*/}
+                        <label htmlFor={"password"}>Password </label>
+                            <input type={"password"}
+                                   name={"password"}
+                                   value={password}
+                                   onChange={onChangePassword}
+                                   validations={[required]}
+                            />
+
+                    {/*</div>*/}
+
+                    {/*<div className="form-group">*/}
+                        <button className="form-button" disabled={loading}>
                             {loading && (
                                 <span className="spinner-border spinner-border-sm"></span>
                             )}
                             <span>Login</span>
                         </button>
-                    </div>
-
+                    {/*</div>*/}
+                </form>
                     {message && (
-                        <div className="form-group">
-                            <div className="alert alert-danger" role="alert">
-                                {message}
-                            </div>
+                        <div className="login-error" role="alert">
+                            {message}
                         </div>
                     )}
-                    <CheckButton style={{ display: "none" }} ref={checkBtn} />
-                </Form>
+
             </div>
-        </div>
     );
 };
 

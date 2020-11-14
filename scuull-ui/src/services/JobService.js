@@ -1,4 +1,7 @@
 import axios  from 'axios';
+import { navigate } from "@reach/router"
+
+import AuthService from "./AuthService";
 
 const BASE_URI = "/jobs/";
 
@@ -12,7 +15,10 @@ const BASE_URI = "/jobs/";
  */
 function callSuccessCallback(fn) {
     // Return just the data property of the object Axios hands over.
-    return ({data}) => fn(data);
+    return ({data}) => {
+        fn(data);
+    }
+
 }
 
 /**
@@ -23,9 +29,28 @@ function callSuccessCallback(fn) {
  * @param fn The function to call when the HTTP request failed.
  * @returns {function(*): *}
  */
-function callFailureCallback(fn) {
+function callFailureCallback(location, fn) {
     // Just use the toLocaleString to convert the error to a string.
-    return (err) => fn(err.toLocaleString());
+    return (err) => {
+        debugger;
+        if (err.response && err.response.status && [401, 403].indexOf(err.response.status) !== -1) {
+            AuthService.logout();
+            navigate("/login", { state: {returnToPath: location}})
+            return;
+        }
+        fn(err.toLocaleString());
+    }
+}
+
+function authHeader() {
+    debugger;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+        return { Authorization: 'Bearer ' + user };
+    } else {
+        return {};
+    }
 }
 
 /**
@@ -35,15 +60,21 @@ function callFailureCallback(fn) {
  * after BASE_URI.
  * @param successCallback The callback to use when the HTTP request was successful.
  * @param failureCallback The callback to use when the HTTP request was not successful.
- * @param params Any parameters to include in the call. This parameter is optional.
  * @returns {Promise<AxiosResponse<any>>}
  */
-const makeGetRequest = (path, successCallback, failureCallback, params = {}) => {
-    axios.get(`${BASE_URI}${path}`, {params})
-        .then(callSuccessCallback(successCallback), callFailureCallback(failureCallback));
+const makeGetRequest = (location, path, successCallback, failureCallback) => {
+    axios.get(`${BASE_URI}${path}`, { headers: authHeader() })
+        .then(callSuccessCallback(successCallback), callFailureCallback(location, failureCallback));
 }
 
 const JobService = {
+
+    location: "/",
+
+    pushLocation(location) {
+        this.location = location;
+        return this;
+    },
 
     /**
      * Calls the jobs endpoint to retrieve a list of instances of a particular job.
@@ -54,7 +85,7 @@ const JobService = {
      * @returns {Promise<AxiosResponse<any>>}
      */
     jobInstances(jobName, successCallback, failureCallback) {
-        return makeGetRequest(`${jobName}`, successCallback, failureCallback);
+        return makeGetRequest(this.location, `${jobName}`, successCallback, failureCallback);
     },
 
     /**
@@ -65,7 +96,7 @@ const JobService = {
      * @returns {Promise<AxiosResponse<*>>}
      */
     jobNames(successCallback, failureCallback) {
-        return makeGetRequest("", successCallback, failureCallback);
+        return makeGetRequest(this.location,"", successCallback, failureCallback);
     },
 
     /**
@@ -77,7 +108,7 @@ const JobService = {
      * @returns {Promise<AxiosResponse<*>>}
      */
     executionDetail(executionId, successCallback, failureCallback) {
-        return makeGetRequest(`execution/${executionId}`, successCallback, failureCallback)
+        return makeGetRequest(this.location,`execution/${executionId}`, successCallback, failureCallback)
     }
 }
 

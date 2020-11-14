@@ -1,0 +1,32 @@
+.login-grid {
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
+
+}
+
+.login-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.login-form * {
+    display: block;
+}
+
+.form-button {
+    grid-column: 1/ span 2;
+}
+
+.login-error {
+    margin-top: 15px;
+    background-color: #982d2d;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}

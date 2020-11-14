@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Link } from '@reach/router';
 
+import Login from "./Login";
 import Jobs from "./Jobs";
 import JobInstances from "./JobInstances";
 import ExecutionDetail from "./ExecutionDetail";
@@ -21,6 +22,7 @@ function App() {
             </header>
             <div className="App-body">
                 <Router>
+                    <Login path="/login" returnToPath={"/"} />
                     <Jobs path="/" />
                     <JobInstances path={"/:jobName"} />
                     <ExecutionDetail path={"/executions/:executionId"} />

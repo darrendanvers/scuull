@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { useLocation } from '@reach/router';
 
 import JobService from "./services/JobService";
 import JobInstance from "./JobInstance";
@@ -18,17 +19,19 @@ const Jobs = () => {
     const [jobNames, setJobNames] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
 
+    const location = useLocation();
+
     /**
      * Fetches the list of all job names.
      */
     useEffect(() => {
 
-        JobService.jobNames((jobNames) => {
+        JobService.pushLocation(location).jobNames((jobNames) => {
             setJobNames(jobNames);
         }, (err) => {
             setErrorMessage(err);
         });
-    },[errorMessage])
+    },[errorMessage, location]);
 
     return (
         <div className="job-name-list">
