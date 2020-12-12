@@ -21,6 +21,7 @@ WORKDIR $APP_HOME
 #
 COPY --chown=gradle:gradle build.gradle settings.gradle $APP_HOME/
 COPY --chown=gradle:gradle src $APP_HOME/src
+COPY --chown=gradle:gradle config $APP_HOME/config
 
 #
 # Build the application.
@@ -42,4 +43,4 @@ COPY --from=build-image $APP_HOME/build/libs/scuull-router-1.0.0.jar app.jar
 #
 # The command to run when the container starts.
 #
-ENTRYPOINT java -jar app.jar
+ENTRYPOINT java -Dauth.jwt.secret=$JWT_SECRET -jar app.jar

@@ -1,0 +1,50 @@
+.login-grid {
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
+
+}
+
+.login-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.login-form * {
+    display: block;
+}
+
+.form-button {
+    grid-column: 1/ span 2;
+}
+
+.login-form label {
+    font-weight: bold;
+}
+
+.login-error {
+    margin-top: 15px;
+    background-color: #982d2d;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.spinner {
+    border: 16px solid dimgrey;
+    border-top: 16px solid steelblue;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

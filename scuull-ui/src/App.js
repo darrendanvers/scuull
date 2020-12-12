@@ -1,6 +1,8 @@
 import React from 'react';
-import { Router, Link } from '@reach/router';
+import { Router } from '@reach/router';
 
+import Header from "./Header";
+import Login from "./Login";
 import Jobs from "./Jobs";
 import JobInstances from "./JobInstances";
 import ExecutionDetail from "./ExecutionDetail";
@@ -8,7 +10,7 @@ import ExecutionDetail from "./ExecutionDetail";
 import './App.css';
 
 /**
- * React hook containing the driver of the rest of the applicaiton.
+ * React hook containing the driver of the rest of the application.
  *
  * @returns {JSX.Element}
  * @constructor
@@ -16,11 +18,12 @@ import './App.css';
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <Link to="/"><h1>Scuull</h1></Link>
+            <header>
+                <Header />
             </header>
             <div className="App-body">
                 <Router>
+                    <Login path="/login" returnToPath={"/"} />
                     <Jobs path="/" />
                     <JobInstances path={"/:jobName"} />
                     <ExecutionDetail path={"/executions/:executionId"} />

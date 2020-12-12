@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link, useParams} from "@reach/router"
+import {Link, useLocation, useParams} from "@reach/router"
 
 import StepDetail from "./StepDetail";
 import Error from "./Error";
@@ -15,6 +15,7 @@ import JobService from "./services/JobService";
  */
 const ExecutionDetail = () => {
 
+    const location = useLocation();
     const routeParams = useParams();
     const [executionDetail, setExecutionDetail] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -23,14 +24,14 @@ const ExecutionDetail = () => {
      * Fetches the information about a specific execution instance.
      */
     useEffect(() => {
-        JobService.executionDetail(routeParams.executionId,
+        JobService.pushLocation(location.pathname).executionDetail(routeParams.executionId,
             (executionDetail) => {
                 setExecutionDetail(executionDetail);
             }, (errorMessage) => {
                 setErrorMessage(errorMessage);
             }
         )
-    }, [routeParams.executionId, setExecutionDetail, setErrorMessage]);
+    }, [routeParams.executionId, setExecutionDetail, setErrorMessage, location]);
 
     return (
         <div className="execution-detail">

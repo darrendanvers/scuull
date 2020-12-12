@@ -2,6 +2,11 @@ plugins {
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
+
+	// Static analysis.
+	id 'checkstyle'
+	id "com.github.spotbugs" version "4.2.0"
+	id 'pmd'
 }
 
 group = 'dev.codestijl'
@@ -18,6 +23,11 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'javax.xml.bind:jaxb-api:2.1' // Needed for io.jsonwebtoken
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -31,4 +41,36 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+// Configure PMD.
+pmd {
+	toolVersion = "6.27.0"
+	ruleSetFiles = files("config/pmd/pmd.xml")
+	ruleSets = []
+}
+
+// Configure Spotbugs.
+spotbugs {
+	ignoreFailures = false
+}
+
+spotbugsMain {
+	reports {
+		xml.enabled = false
+		html.configure {
+			enabled = true
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
+}
+
+spotbugsTest {
+	reports {
+		xml.enabled = false
+		html.configure {
+			enabled = true
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
 }

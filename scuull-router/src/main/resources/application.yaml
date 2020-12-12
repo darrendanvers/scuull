@@ -1,0 +1,33 @@
+spring:
+  main:
+    banner-mode: off
+
+server:
+  port: 5555
+
+auth:
+  jwt:
+    secret: 'daklmvakljoij203fjv0i23474*&&31knjf&#7892543hke8&&&^#lcm'
+    validity: 3600000
+
+zuul:
+  ignored-services: '*'
+  sensitive-headers: Cookie,Set-Cookie
+  routes:
+    user:
+      path: /auth/**
+      url: forward:/auth
+    error:
+      path: /error/**
+      url: forward:/error
+    ui:
+      path: /**
+      url: http://ui:3000/
+    api:
+      path: /jobs/**
+      url: http://api:8080/jobs/
+
+logging:
+  level:
+    org: INFO
+    dev: DEBUG
