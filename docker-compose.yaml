@@ -26,6 +26,8 @@ services:
     restart: always
     ports:
       - '5555:5555'
+    environment:
+      - JWT_SECRET=aklvdk2j230990vjojia#*@(723489589dsd(*D(Dnvm,mdskklsn238***d
   #
   # The API server.
   #
