@@ -27,9 +27,9 @@ const AuthService = {
             })
             .then(response => {
                 if (response.data) {
-                    localStorage.setItem("token", response.data);
+                    sessionStorage.setItem("token", response.data);
                     const user = jwt(response.data);
-                    localStorage.setItem('user', JSON.stringify(user));
+                    sessionStorage.setItem('user', JSON.stringify(user));
                     Emitter.emit(Emitter.LOGON, user);
                 }
 
@@ -42,8 +42,8 @@ const AuthService = {
      */
     logout() {
         Emitter.emit(Emitter.LOG_OFF);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('token');
     },
 
     /**
@@ -51,7 +51,7 @@ const AuthService = {
      * @returns {any}
      */
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
+        return JSON.parse(sessionStorage.getItem('user'));;
     },
 
     /**
@@ -59,7 +59,7 @@ const AuthService = {
      * @returns {string}
      */
     getCurrentToken() {
-        return localStorage.getItem('token');
+        return sessionStorage.getItem('token');
     }
 }
 
