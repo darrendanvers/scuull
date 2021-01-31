@@ -1,6 +1,5 @@
 package dev.codestijl.scuullrouter.security;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.*;
@@ -47,7 +46,7 @@ public class JwtTokenProvider {
     @Autowired
     public JwtTokenProvider(final UserDetailsService userDetailsService,
                             @Value("${auth.jwt.secret}")final String secret,
-                            @Value("${auth.jwt.validity}")final long validityInMilliseconds) throws UnsupportedEncodingException {
+                            @Value("${auth.jwt.validity}")final long validityInMilliseconds) {
 
         logger.info(String.format("Using %s as secret.", secret));
 
