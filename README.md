@@ -14,7 +14,7 @@ In the topmost directory, type in:
     docker-compose build
     docker-compse up
 
-Open your browser to [http://localhost:3000](http://localhost:3000).
+Open your browser to [http://localhost:5555](http://localhost:5555).
 
 ## Complete
 
