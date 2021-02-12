@@ -40,6 +40,8 @@ services:
       - DB_USER=spring-md
       - DB_PASSWORD=spring-md-password
       - ACTIVE_PROFILE=docker
+    depends_on: 
+      - "db"
   #
   # The server with the user interface.
   #
@@ -47,6 +49,9 @@ services:
     build: ./scuull-ui
     image: 'dev.codestijl/scuul-ui:0.1.0'
     restart: always
+    depends_on: 
+      - "api"
+      - "router"
 # Data volumes.
 volumes:
   my-db:
